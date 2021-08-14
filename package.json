@@ -11,11 +11,6 @@
     "format": "npx prettier --write \"**/*.{js,jsx,json,ts,tsx}\"",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\""
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run typecheck && npm run format:check && npm run lint"
-    }
-  },
   "dependencies": {
     "expo": "~42.0.1",
     "expo-status-bar": "~1.0.4",
