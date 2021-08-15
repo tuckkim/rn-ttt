@@ -1,6 +1,6 @@
 {
-  "prettier.enableDebugLogs": true,
-  "workbench.colorCustomizations": {
-    "editorUnnecessaryCode.border": "#dd7abb"
-  }
+  "prettier.enableDebugLogs": true
+  // "workbench.colorCustomizations": {
+  //   "editorUnnecessaryCode.border": "#dd7abb"
+  // }
 }
