@@ -15,7 +15,7 @@ export default function Navigator(): ReactElement {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="singlePlayerScr"
+        initialRouteName="homeScr"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="homeScr" component={HomeScr} />
