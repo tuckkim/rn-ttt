@@ -1,35 +1,26 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Dimensions, View } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import styles from "./single-player-game.styles";
 import { RootNavParams } from "@config/navigator";
-import { Wrapper, Board } from "@components";
-import {
-  BoardState,
-  isTerminal,
-  getBestMove,
-  isEmpty,
-  Cell,
-  useSounds,
-} from "@utils";
+import { Wrapper, Board, Text, Button } from "@components";
+import { BoardState, isTerminal, getBestMove, isEmpty, Cell, useSounds } from "@utils";
 
+const SCREEN_WIDTH = Math.min(600, Dimensions.get("window").width);
 type StackNavProps = {
   navigation: NativeStackNavigationProp<RootNavParams, "singlePlayerScr">;
 };
 
-export default function SinglePlayerGame({
-  navigation,
-}: StackNavProps): ReactElement {
+export default function SinglePlayerGame({ navigation }: StackNavProps): ReactElement {
   // prettier-ignore
   const [state, setState] = useState<BoardState>([
     null, null, null,
     null, null, null,
     null, null, null,
   ]);
-  const [turn, setTurn] = useState<"HUMAN" | "BOT">(
-    Math.random() < 0.5 ? "HUMAN" : "BOT"
-  );
+  const [turn, setTurn] = useState<"HUMAN" | "BOT">(Math.random() < 0.5 ? "HUMAN" : "BOT");
   const [isHumanMaximizing, setIsHumanMaximizing] = useState<boolean>(true);
 
   const gameResult = isTerminal(state);
@@ -95,13 +86,41 @@ export default function SinglePlayerGame({
   return (
     <Wrapper>
       <SafeAreaView style={styles.container}>
+        <View>
+          <Text style={styles.difficulty}>Difficulty: Hard</Text>
+          <View style={styles.results}>
+            <View style={styles.resultsBox}>
+              <Text style={styles.resultsTitle}>Wins</Text>
+              <Text style={styles.resultsCount}>0</Text>
+            </View>
+            <View style={styles.resultsBox}>
+              <Text style={styles.resultsTitle}>Draws</Text>
+              <Text style={styles.resultsCount}>0</Text>
+            </View>
+            <View style={styles.resultsBox}>
+              <Text style={styles.resultsTitle}>Lost</Text>
+              <Text style={styles.resultsCount}>0</Text>
+            </View>
+          </View>
+        </View>
         <Board
           disabled={(isTerminal(state) as boolean) || turn !== "HUMAN"}
           onCellPressed={(index) => handleOnCellPressed(index)}
-          size={300}
+          size={SCREEN_WIDTH * 0.8}
           state={state}
           gameResult={gameResult}
         />
+
+        {gameResult && (
+          <View style={styles.modal}>
+            <Text style={styles.modalText}>
+              {getWinner(gameResult.winner) === "HUMAN" && "You Won"}
+              {getWinner(gameResult.winner) === "BOT" && "You Lost"}
+              {getWinner(gameResult.winner) === "DRAW" && "Draw Game"}
+            </Text>
+            <Button title="Play Again" />
+          </View>
+        )}
       </SafeAreaView>
     </Wrapper>
   );

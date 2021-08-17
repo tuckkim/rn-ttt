@@ -1,12 +1,12 @@
 import React, { ReactElement, useEffect, useRef } from "react";
 import { Animated, StyleSheet } from "react-native";
-import { BoardResult } from "@utils";
+import { BoardResult, colors } from "@utils";
 
-const lineWidth = 10;
+const lineWidth = 6;
 const styles = StyleSheet.create({
   line: {
     position: "absolute",
-    backgroundColor: "#ff0033",
+    backgroundColor: colors.lightPurple,
   },
   vLine: {
     width: lineWidth,
@@ -29,10 +29,7 @@ type BoardLineProps = {
   gameResult?: BoardResult | false;
 };
 
-export default function BoardLine({
-  size,
-  gameResult,
-}: BoardLineProps): ReactElement {
+export default function BoardLine({ size, gameResult }: BoardLineProps): ReactElement {
   const diagHeight = Math.sqrt(Math.pow(size, 2) * 2) - 10;
   const animationRefCur = useRef<Animated.Value>(new Animated.Value(0)).current;
 
