@@ -1,6 +1,7 @@
 import { Platform, StyleSheet } from "react-native";
 
-const minHeight = Platform.OS === "web" ? "100vh" : "100%";
+// const minHeight = Platform.OS === "web" ? "100vh" : "100%";
+const minHeight = Platform.OS === "web" ? "91vh" : "91%";
 const minWidth = Platform.OS === "web" ? "100vw" : "100%";
 const styles = StyleSheet.create({
   container: {
@@ -20,7 +21,6 @@ const styles = StyleSheet.create({
   scrollView: {
     minWidth,
     minHeight,
-    alignItems: "center",
   },
 });
 

@@ -1,5 +1,4 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { Dimensions, View } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
@@ -106,7 +105,7 @@ export default function SinglePlayerGame({ navigation }: StackNavProps): ReactEl
 
   return (
     <Wrapper>
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         <View>
           <Text style={styles.difficulty}>Difficulty: Hard</Text>
           <View style={styles.results}>
@@ -142,7 +141,7 @@ export default function SinglePlayerGame({ navigation }: StackNavProps): ReactEl
             <Button title="Play Again" onPress={newGame} />
           </View>
         )}
-      </SafeAreaView>
+      </View>
     </Wrapper>
   );
 }

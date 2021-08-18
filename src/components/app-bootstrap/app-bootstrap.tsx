@@ -1,10 +1,6 @@
 import React, { ReactElement, ReactNode } from "react";
 import { ActivityIndicator, View } from "react-native";
-import {
-  useFonts,
-  DeliusUnicase_400Regular,
-  DeliusUnicase_700Bold,
-} from "@expo-google-fonts/delius-unicase";
+import { useFonts, DeliusUnicase_400Regular, DeliusUnicase_700Bold } from "@expo-google-fonts/delius-unicase";
 
 type tProps = {
   children: ReactNode;
