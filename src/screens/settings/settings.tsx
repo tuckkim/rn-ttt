@@ -1,56 +1,13 @@
-import React, { ReactElement, useEffect, useState } from "react";
-import { Alert, Switch, TouchableOpacity, View } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { ReactElement } from "react";
+import { Switch, TouchableOpacity, View } from "react-native";
 
 import styles from "./settings.styles";
 import { Wrapper, Text } from "@components";
 import { colors } from "@utils";
-
-const difficulties = {
-  "1": "Beginner",
-  "2": "intermediate",
-  "3": "Hard",
-  "-1": "Impossible",
-};
-
-type SettingsType = {
-  difficulty: keyof typeof difficulties;
-  haptics: boolean;
-  sounds: boolean;
-};
-
-const defaultSettings: SettingsType = {
-  difficulty: "1",
-  haptics: true,
-  sounds: true,
-};
+import { useSettings, difficulties } from "@contexts/settings-context";
 
 export default function Settings(): ReactElement | null {
-  const [settings, setSettings] = useState<SettingsType | null>(null);
-
-  const saveSettings = async (newSettings: SettingsType | null) => {
-    try {
-      if (newSettings) {
-        const jsonSettings = JSON.stringify(newSettings);
-        await AsyncStorage.setItem("@settings", jsonSettings);
-      }
-    } catch (err) {
-      Alert.alert("An error occurred", err);
-    }
-  };
-
-  const loadSettings = async () => {
-    try {
-      const setts = await AsyncStorage.getItem("@settings");
-      setts !== null ? setSettings(JSON.parse(setts)) : setSettings(defaultSettings);
-    } catch (err) {
-      setSettings(defaultSettings);
-    }
-  };
-
-  useEffect(() => {
-    loadSettings();
-  }, []);
+  const { settings, saveSettings } = useSettings();
 
   if (!settings) return null;
   return (
@@ -63,13 +20,7 @@ export default function Settings(): ReactElement | null {
               return (
                 <TouchableOpacity
                   onPress={() => {
-                    setSettings((ps) => {
-                      const newSetts: SettingsType | null = ps
-                        ? { ...ps, difficulty: level as keyof typeof difficulties }
-                        : null;
-                      saveSettings(newSetts);
-                      return newSetts;
-                    });
+                    saveSettings("difficulty", level as keyof typeof difficulties);
                   }}
                   style={[
                     styles.choice,
@@ -100,11 +51,7 @@ export default function Settings(): ReactElement | null {
           <Switch
             value={settings.sounds}
             onValueChange={() => {
-              setSettings((ps) => {
-                const newSetts: SettingsType | null = ps ? { ...ps, sounds: !ps.sounds } : null;
-                saveSettings(newSetts);
-                return newSetts;
-              });
+              saveSettings("sounds", !settings.sounds);
             }}
             trackColor={{
               false: colors.purple,
@@ -120,11 +67,7 @@ export default function Settings(): ReactElement | null {
           <Switch
             value={settings.haptics}
             onValueChange={() => {
-              setSettings((ps) => {
-                const newSetts: SettingsType | null = ps ? { ...ps, haptics: !ps.haptics } : null;
-                saveSettings(newSetts);
-                return newSetts;
-              });
+              saveSettings("haptics", !settings.haptics);
             }}
             trackColor={{
               false: colors.purple,
