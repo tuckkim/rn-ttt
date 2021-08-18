@@ -20,8 +20,16 @@ export default function SinglePlayerGame({ navigation }: StackNavProps): ReactEl
     null, null, null,
     null, null, null,
   ]);
-  const [turn, setTurn] = useState<"HUMAN" | "BOT">(Math.random() < 0.5 ? "HUMAN" : "BOT");
+  const getRndTurn = (): "HUMAN" | "BOT" => {
+    return Math.random() < 0.5 ? "HUMAN" : "BOT";
+  };
+  const [turn, setTurn] = useState<"HUMAN" | "BOT">(getRndTurn());
   const [isHumanMaximizing, setIsHumanMaximizing] = useState<boolean>(true);
+  const [gameCount, setGameCount] = useState<{ wins: number; lost: number; draws: number }>({
+    wins: 0,
+    lost: 0,
+    draws: 0,
+  });
 
   const gameResult = isTerminal(state);
   const playSound = useSounds();
@@ -50,18 +58,31 @@ export default function SinglePlayerGame({ navigation }: StackNavProps): ReactEl
     return "DRAW";
   };
 
+  const newGame = (): void => {
+    setState([null, null, null, null, null, null, null, null, null]);
+    setTurn(getRndTurn());
+  };
+
   useEffect(() => {
     if (gameResult) {
       const winner = getWinner(gameResult.winner);
       try {
         if (winner === "HUMAN") {
           playSound("win");
+          setGameCount((prevState) => ({
+            ...prevState,
+            wins: prevState.wins + 1,
+          }));
           // alert("u win!");
         } else if (winner === "BOT") {
           playSound("lost");
+          setGameCount((ps) => {
+            return { ...ps, lost: ps.lost + 1 };
+          });
           // alert("u lost!");
         } else {
           playSound("draw");
+          setGameCount((ps) => ({ ...ps, draws: ps.draws + 1 }));
           // alert("draw game!");
         }
       } catch (err) {
@@ -91,15 +112,15 @@ export default function SinglePlayerGame({ navigation }: StackNavProps): ReactEl
           <View style={styles.results}>
             <View style={styles.resultsBox}>
               <Text style={styles.resultsTitle}>Wins</Text>
-              <Text style={styles.resultsCount}>0</Text>
+              <Text style={styles.resultsCount}>{gameCount.wins}</Text>
             </View>
             <View style={styles.resultsBox}>
               <Text style={styles.resultsTitle}>Draws</Text>
-              <Text style={styles.resultsCount}>0</Text>
+              <Text style={styles.resultsCount}>{gameCount.draws}</Text>
             </View>
             <View style={styles.resultsBox}>
               <Text style={styles.resultsTitle}>Lost</Text>
-              <Text style={styles.resultsCount}>0</Text>
+              <Text style={styles.resultsCount}>{gameCount.lost}</Text>
             </View>
           </View>
         </View>
@@ -118,7 +139,7 @@ export default function SinglePlayerGame({ navigation }: StackNavProps): ReactEl
               {getWinner(gameResult.winner) === "BOT" && "You Lost"}
               {getWinner(gameResult.winner) === "DRAW" && "Draw Game"}
             </Text>
-            <Button title="Play Again" />
+            <Button title="Play Again" onPress={newGame} />
           </View>
         )}
       </SafeAreaView>
