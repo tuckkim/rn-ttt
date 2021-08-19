@@ -3,9 +3,13 @@ import { useEffect, useRef } from "react";
 import { Platform } from "react-native";
 import * as Haptics from "expo-haptics";
 
+import { useSettings } from "@contexts/settings-context";
+
 type SoundType = "pop1" | "pop2" | "win" | "lost" | "draw";
 
 export default function useSounds(): (sound: SoundType) => void {
+  const { settings } = useSettings();
+
   const isMobile = Platform.OS === "android" || Platform.OS === "ios";
   const popSoundRef = useRef<Audio.Sound | null>(null);
   const pop2SoundRef = useRef<Audio.Sound | null>(null);
@@ -23,9 +27,9 @@ export default function useSounds(): (sound: SoundType) => void {
     };
     try {
       const status = await soundMap[sound].current?.getStatusAsync();
-      status && status.isLoaded && soundMap[sound].current?.replayAsync();
+      settings?.sounds && status && status.isLoaded && soundMap[sound].current?.replayAsync();
 
-      if (isMobile) {
+      if (isMobile && settings?.haptics) {
         switch (sound) {
           case "win":
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);

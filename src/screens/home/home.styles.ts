@@ -1,6 +1,9 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
+  container: {
+    alignItems: "center",
+  },
   logo: {
     marginTop: 40,
     height: 200,

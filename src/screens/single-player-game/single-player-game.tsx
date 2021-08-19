@@ -1,5 +1,4 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { Dimensions, View } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
@@ -7,6 +6,7 @@ import styles from "./single-player-game.styles";
 import { RootNavParams } from "@config/navigator";
 import { Wrapper, Board, Text, Button } from "@components";
 import { BoardState, isTerminal, getBestMove, isEmpty, Cell, useSounds } from "@utils";
+import { useSettings, difficulties } from "@contexts/settings-context";
 
 const SCREEN_WIDTH = Math.min(600, Dimensions.get("window").width);
 type StackNavProps = {
@@ -33,6 +33,7 @@ export default function SinglePlayerGame({ navigation }: StackNavProps): ReactEl
 
   const gameResult = isTerminal(state);
   const playSound = useSounds();
+  const { settings } = useSettings();
 
   const insertCell = (idx: number, symbol: "x" | "o"): void => {
     const stCopy: BoardState = [...state];
@@ -96,7 +97,7 @@ export default function SinglePlayerGame({ navigation }: StackNavProps): ReactEl
           setIsHumanMaximizing(false);
           setTurn("HUMAN");
         } else {
-          const best = getBestMove(state, !isHumanMaximizing, 0, 2);
+          const best = getBestMove(state, !isHumanMaximizing, 0, parseInt(settings?.difficulty || "1"));
           insertCell(best, isHumanMaximizing ? "o" : "x");
           setTurn("HUMAN");
         }
@@ -106,9 +107,9 @@ export default function SinglePlayerGame({ navigation }: StackNavProps): ReactEl
 
   return (
     <Wrapper>
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         <View>
-          <Text style={styles.difficulty}>Difficulty: Hard</Text>
+          <Text style={styles.difficulty}>Difficulty: {difficulties[settings?.difficulty || "1"]}</Text>
           <View style={styles.results}>
             <View style={styles.resultsBox}>
               <Text style={styles.resultsTitle}>Wins</Text>
@@ -142,7 +143,7 @@ export default function SinglePlayerGame({ navigation }: StackNavProps): ReactEl
             <Button title="Play Again" onPress={newGame} />
           </View>
         )}
-      </SafeAreaView>
+      </View>
     </Wrapper>
   );
 }
