@@ -1,3 +1,4 @@
+import { colors } from "@utils";
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
@@ -17,6 +18,12 @@ const styles = StyleSheet.create({
   },
   btn: {
     marginBottom: 20,
+  },
+  loggedInText: {
+    marginVertical: 20,
+    color: colors.lightGreen,
+    fontSize: 10,
+    textAlign: "center",
   },
 });
 
