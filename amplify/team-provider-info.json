@@ -14,6 +14,16 @@
     "categories": {
       "auth": {
         "rnttta5f67181": {}
+      },
+      "function": {
+        "postConfirmation": {
+          "deploymentBucketName": "amplify-rnttt-dev-172707-deployment",
+          "s3Key": "amplify-builds/postConfirmation-49694249574633726739-build.zip"
+        },
+        "preAuth": {
+          "deploymentBucketName": "amplify-rnttt-dev-172707-deployment",
+          "s3Key": "amplify-builds/preAuth-4c41674d4d6f55785435-build.zip"
+        }
       }
     }
   }
