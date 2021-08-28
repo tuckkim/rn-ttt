@@ -1,7 +1,11 @@
 type Mutation {
-  startGame(invitee: String!): GameData @function(name: "startGame-${evn}") @aws_cognito_user_pools
+  startGame(invitee: String!): GameData @function(name: "startGame-${env}") @aws_iam @aws_cognito_user_pools
 
-  playMove(game: ID!, index: Int!): GameData @function(name: "playMove-${evn}") @aws_cognito_user_pools
+  playMove(game: ID!, index: Int!): GameData @function(name: "playMove-${env}") @aws_cognito_user_pools
+}
+
+type Subscription {
+  onUpdateGameById(id: ID!): Game @aws_subscribe(mutations: ["updateGame"]) @aws_cognito_user_pools
 }
 
 type GameData {
@@ -14,6 +18,7 @@ type GameData {
 
 type Player
   @model
+  @searchable
   @key(fields: ["username"])
   @auth(
     rules: [
@@ -49,18 +54,6 @@ type PlayerGame
   player: Player! @connection(fields: ["playerUsername"])
 }
 
-enum GameStatus {
-  REQUESTED
-  DECLINED
-  ACTIVE
-  FINISHED
-  CANCELLED
-}
-enum Symbol {
-  x
-  o
-}
-
 type Game
   @model
   @auth(
@@ -77,4 +70,17 @@ type Game
   state: [Symbol]!
   winner: String
   players: [PlayerGame] @connection(keyName: "byGame", fields: ["id"])
+}
+
+enum GameStatus {
+  REQUESTED
+  DECLINED
+  ACTIVE
+  FINISHED
+  CANCELLED
+}
+
+enum Symbol {
+  x
+  o
 }
