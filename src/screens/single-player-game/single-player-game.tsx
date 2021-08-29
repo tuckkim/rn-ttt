@@ -1,19 +1,14 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import { Dimensions, View } from "react-native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import styles from "./single-player-game.styles";
-import { RootNavParams } from "@config/navigator";
 import { Wrapper, Board, Text, Button } from "@components";
 import { BoardState, isTerminal, getBestMove, isEmpty, Cell, useSounds } from "@utils";
 import { useSettings, difficulties } from "@contexts/settings-context";
 
 const SCREEN_WIDTH = Math.min(600, Dimensions.get("window").width);
-type StackNavProps = {
-  navigation: NativeStackNavigationProp<RootNavParams, "singlePlayerScr">;
-};
 
-export default function SinglePlayerGame({ navigation }: StackNavProps): ReactElement {
+export default function SinglePlayerGame(): ReactElement {
   // prettier-ignore
   const [state, setState] = useState<BoardState>([
     null, null, null,
