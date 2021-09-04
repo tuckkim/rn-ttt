@@ -1,5 +1,6 @@
 import React, { ReactElement, useRef, useState } from "react";
-import { View, TextInput, TouchableOpacity } from "react-native";
+import { TextInput, TouchableOpacity, ScrollView } from "react-native";
+import { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Auth } from "aws-amplify";
 
@@ -9,9 +10,11 @@ import styles from "./login.styles";
 
 type StackNavProps = {
   navigation: NativeStackNavigationProp<RootNavParams, "Login">;
+  route: RouteProp<RootNavParams, "Login">;
 };
 
-export default function Login({ navigation }: StackNavProps): ReactElement {
+export default function Login({ navigation, route }: StackNavProps): ReactElement {
+  const redirect = route.params?.redirect;
   const pwdRef = useRef<TextInput | null>(null);
   const [form, setForm] = useState({
     username: "test",
@@ -30,7 +33,7 @@ export default function Login({ navigation }: StackNavProps): ReactElement {
       const res = await Auth.signIn(username, password);
       setLoading(false);
 
-      navigation.navigate("Home");
+      redirect ? navigation.replace(redirect) : navigation.navigate("Home");
     } catch (err) {
       if (err.code === "UserNotConfirmedException") {
         navigation.navigate("SignUp", { username });
@@ -43,7 +46,7 @@ export default function Login({ navigation }: StackNavProps): ReactElement {
 
   return (
     <Wrapper>
-      <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
         <TxtInput
           value={form.username}
           onChangeText={(value: string) => setFormInput("username", value)}
@@ -82,7 +85,7 @@ export default function Login({ navigation }: StackNavProps): ReactElement {
         >
           <Text style={styles.registerLink}>Don&apos;t have an account?</Text>
         </TouchableOpacity>
-      </View>
+      </ScrollView>
     </Wrapper>
   );
 }

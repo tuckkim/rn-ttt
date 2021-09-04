@@ -1,12 +1,13 @@
-import { colors } from "@utils";
 import { StyleSheet } from "react-native";
+
+import { colors } from "@utils";
 
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
   },
   logo: {
-    marginTop: 40,
+    marginTop: 20,
     height: 200,
     width: 300,
     maxWidth: "60%",

@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from "react";
-import { Alert, Image, View } from "react-native";
+import { Alert, Image, Platform, ScrollView, View } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import styles from "./home.styles";
@@ -11,6 +11,8 @@ import { Auth } from "aws-amplify";
 type StackNavProps = {
   navigation: NativeStackNavigationProp<RootNavParams, "Home">;
 };
+
+const minHeight = Platform.OS === "web" ? "100vh" : "100%";
 
 export default function Home({ navigation }: StackNavProps): ReactElement {
   const { user } = useAuth();
@@ -27,8 +29,8 @@ export default function Home({ navigation }: StackNavProps): ReactElement {
   };
 
   return (
-    <Wrapper>
-      <View style={styles.container}>
+    <Wrapper style={{ minHeight }}>
+      <ScrollView contentContainerStyle={styles.container}>
         <Image source={require("@assets/logo.png")} style={styles.logo} />
         <View style={styles.buttons}>
           <Button
@@ -38,7 +40,17 @@ export default function Home({ navigation }: StackNavProps): ReactElement {
               navigation.navigate("SinglePlayer");
             }}
           />
-          <Button style={styles.btn} title="Multiplayer" />
+          <Button
+            style={styles.btn}
+            title="Multiplayer"
+            onPress={() => {
+              if (user) {
+                navigation.navigate("MultiplayerHome");
+              } else {
+                navigation.navigate("Login", { redirect: "MultiplayerHome" });
+              }
+            }}
+          />
           <Button
             loading={signingOut}
             style={styles.btn}
@@ -64,7 +76,7 @@ export default function Home({ navigation }: StackNavProps): ReactElement {
             </Text>
           )}
         </View>
-      </View>
+      </ScrollView>
     </Wrapper>
   );
 }

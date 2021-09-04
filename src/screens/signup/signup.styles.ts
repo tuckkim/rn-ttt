@@ -1,10 +1,11 @@
-import { colors } from "@utils";
 import { StyleSheet } from "react-native";
+
+import { colors } from "@utils";
+import { globalStyles } from "@utils";
 
 export default StyleSheet.create({
   container: {
-    paddingVertical: 20,
-    paddingHorizontal: 20,
+    ...globalStyles.container,
   },
   otpView: {
     flex: 1,

@@ -1,10 +1,11 @@
-import { colors } from "@utils";
 import { StyleSheet } from "react-native";
+
+import { colors } from "@utils";
+import { globalStyles } from "@utils";
 
 export default StyleSheet.create({
   container: {
-    marginTop: 40,
-    paddingHorizontal: 40,
+    ...globalStyles.container,
   },
   field: {
     marginBottom: 40,

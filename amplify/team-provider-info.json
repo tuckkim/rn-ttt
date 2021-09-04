@@ -31,6 +31,10 @@
         "startGame": {
           "deploymentBucketName": "amplify-rnttt-dev-172707-deployment",
           "s3Key": "amplify-builds/startGame-38495a676d7772593656-build.zip"
+        },
+        "addExpoToken": {
+          "deploymentBucketName": "amplify-rnttt-dev-172707-deployment",
+          "s3Key": "amplify-builds/addExpoToken-6736375149566d477972-build.zip"
         }
       }
     }

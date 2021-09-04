@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import { Dimensions, View } from "react-native";
+import { Dimensions, ScrollView, View } from "react-native";
 
 import styles from "./single-player-game.styles";
 import { Wrapper, Board, Text, Button } from "@components";
@@ -102,7 +102,7 @@ export default function SinglePlayerGame(): ReactElement {
 
   return (
     <Wrapper>
-      <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
         <View>
           <Text style={styles.difficulty}>Difficulty: {difficulties[settings?.difficulty || "1"]}</Text>
           <View style={styles.results}>
@@ -138,7 +138,7 @@ export default function SinglePlayerGame(): ReactElement {
             <Button title="Play Again" onPress={newGame} />
           </View>
         )}
-      </View>
+      </ScrollView>
     </Wrapper>
   );
 }

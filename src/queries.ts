@@ -43,16 +43,6 @@ export const getPlayer = /* GraphQL */ `
         }
         nextToken
       }
-      tokens {
-        items {
-          id
-          token
-          playerUsername
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
     }
   }
 `;
@@ -90,16 +80,6 @@ export const listPlayers = /* GraphQL */ `
           }
           nextToken
         }
-        tokens {
-          items {
-            id
-            token
-            playerUsername
-            createdAt
-            updatedAt
-          }
-          nextToken
-        }
       }
       nextToken
     }
@@ -129,16 +109,6 @@ export const searchPlayers = /* GraphQL */ `
             gameID
             playerUsername
             owners
-            updatedAt
-          }
-          nextToken
-        }
-        tokens {
-          items {
-            id
-            token
-            playerUsername
-            createdAt
             updatedAt
           }
           nextToken
@@ -219,43 +189,6 @@ export const listGames = /* GraphQL */ `
           }
           nextToken
         }
-      }
-      nextToken
-    }
-  }
-`;
-export const getExpoToken = /* GraphQL */ `
-  query GetExpoToken($token: String!) {
-    getExpoToken(token: $token) {
-      id
-      token
-      playerUsername
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listExpoTokens = /* GraphQL */ `
-  query ListExpoTokens(
-    $token: String
-    $filter: ModelExpoTokenFilterInput
-    $limit: Int
-    $nextToken: String
-    $sortDirection: ModelSortDirection
-  ) {
-    listExpoTokens(
-      token: $token
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
-      items {
-        id
-        token
-        playerUsername
-        createdAt
-        updatedAt
       }
       nextToken
     }

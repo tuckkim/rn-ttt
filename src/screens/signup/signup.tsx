@@ -1,5 +1,5 @@
 import React, { ReactElement, useRef, useState, useEffect } from "react";
-import { View, TextInput, KeyboardAvoidingView, TouchableOpacity } from "react-native";
+import { View, TextInput, KeyboardAvoidingView, TouchableOpacity, ScrollView } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useHeaderHeight } from "@react-navigation/elements";
@@ -88,7 +88,7 @@ export default function Signup({ navigation, route }: StackNavProps): ReactEleme
   return (
     <Wrapper>
       <KeyboardAvoidingView keyboardVerticalOffset={headerHeight} behavior="padding" style={{ flex: 1 }}>
-        <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.container}>
           {step === "otp" && (
             <View style={styles.otpView}>
               <Text style={styles.otpLabel}>Enter the code that you received from email.</Text>
@@ -176,7 +176,7 @@ export default function Signup({ navigation, route }: StackNavProps): ReactEleme
               <Button loading={loading} title="Register" onPress={SignUpHandler} />
             </View>
           )}
-        </View>
+        </ScrollView>
       </KeyboardAvoidingView>
     </Wrapper>
   );

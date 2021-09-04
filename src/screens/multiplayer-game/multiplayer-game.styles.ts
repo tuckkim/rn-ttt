@@ -1,14 +1,13 @@
+import { colors } from "@utils";
 import { StyleSheet } from "react-native";
 
-import { colors } from "@utils";
-
-const styles = StyleSheet.create({
+export default StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 0,
     alignItems: "center",
   },
-  difficulty: {
+  turnHeader: {
     color: colors.lightGreen,
     fontSize: 22,
     textAlign: "center",
@@ -20,20 +19,27 @@ const styles = StyleSheet.create({
     marginBottom: 80,
   },
   resultsBox: {
+    width: 141,
     backgroundColor: colors.lightGreen,
     borderWidth: 1,
     borderColor: colors.lightPurple,
-    alignItems: "center",
     padding: 15,
     marginHorizontal: 5,
   },
-  resultsTitle: {
-    color: colors.darkPurple,
-    fontSize: 14,
+  vsBox: {
+    padding: 15,
+    marginHorizontal: 3,
   },
-  resultsCount: {
+  vsLabel: {
+    color: colors.lightGreen,
+  },
+  resultsName: {
     color: colors.darkPurple,
-    fontSize: 20,
+    fontSize: 18,
+  },
+  resultsUsername: {
+    color: colors.darkPurple,
+    fontSize: 12,
   },
   modal: {
     position: "absolute",
@@ -53,5 +59,3 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
 });
-
-export default styles;

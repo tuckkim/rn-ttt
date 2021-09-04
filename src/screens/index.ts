@@ -5,3 +5,5 @@ export { default as LoginScr } from "./login/login";
 export { default as SignUpScr } from "./signup/signup";
 export { default as ChangePasswordScr } from "./change-password/change-password";
 export { default as ForgotPasswordScr } from "./forgot-password/forgot-password";
+export { default as MultiplayerHomeScr } from "./multiplayer-home/multiplayer-home";
+export { default as MultiplayerGameScr } from "./multiplayer-game/multiplayer-game";

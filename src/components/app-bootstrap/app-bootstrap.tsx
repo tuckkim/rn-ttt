@@ -4,6 +4,7 @@ import { Auth, Hub } from "aws-amplify";
 
 import Loading from "../loading/loading";
 import { useAuth } from "@contexts/auth-context";
+import { initNofications } from "@utils";
 
 type AppBootStrapProps = {
   children: ReactNode;
@@ -23,6 +24,7 @@ export default function AppBootStrap({ children }: AppBootStrapProps): ReactElem
       try {
         const user = await Auth.currentAuthenticatedUser();
         setUser(user);
+        initNofications();
       } catch (err) {
         setUser(null);
       }
@@ -38,6 +40,7 @@ export default function AppBootStrap({ children }: AppBootStrapProps): ReactElem
           break;
         case "signIn":
           setUser(data);
+          initNofications();
           break;
 
         default:

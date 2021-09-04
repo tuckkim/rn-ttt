@@ -2,9 +2,10 @@ import React, { ReactElement } from "react";
 import { TouchableOpacity, View } from "react-native";
 
 import Text from "../text/Text";
-import { BoardResult, BoardState } from "@utils";
+import { BoardResult, BoardState, Moves } from "@utils";
 import BoardLine from "./board-line";
 import styles from "./board.styles";
+import Loading from "../loading/loading";
 
 type BoardProps = {
   state: BoardState;
@@ -12,9 +13,10 @@ type BoardProps = {
   disabled?: boolean;
   gameResult?: BoardResult | false;
   onCellPressed?: (i: number) => void;
+  loading?: Moves | false;
 };
 
-export default function Board({ state, size, disabled, gameResult, onCellPressed }: BoardProps): ReactElement {
+export default function Board({ state, size, disabled, gameResult, loading, onCellPressed }: BoardProps): ReactElement {
   return (
     <View
       style={[
@@ -33,7 +35,11 @@ export default function Board({ state, size, disabled, gameResult, onCellPressed
             key={index}
             style={[styles.cell, styles[`cell${index}` as "cell"]]}
           >
-            <Text style={[styles.cellText, { fontSize: size / 7 }]}>{cell}</Text>
+            {loading === index ? (
+              <Loading style={{ backgroundColor: "transparent" }} />
+            ) : (
+              <Text style={[styles.cellText, { fontSize: size / 7 }]}>{cell}</Text>
+            )}
           </TouchableOpacity>
         );
       })}

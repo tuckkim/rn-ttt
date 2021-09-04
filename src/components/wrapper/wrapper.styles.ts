@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
   },
-  scrollView: {
+  safeView: {
     minWidth,
     minHeight,
   },

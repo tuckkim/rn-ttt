@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { Switch, TouchableOpacity, View } from "react-native";
+import { ScrollView, Switch, TouchableOpacity, View } from "react-native";
 
 import styles from "./settings.styles";
 import { Wrapper, Text } from "@components";
@@ -12,7 +12,7 @@ export default function Settings(): ReactElement | null {
   if (!settings) return null;
   return (
     <Wrapper>
-      <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.field}>
           <Text style={styles.label}>Bot Difficulty</Text>
           <View style={styles.choices}>
@@ -77,7 +77,7 @@ export default function Settings(): ReactElement | null {
             ios_backgroundColor={colors.purple}
           />
         </View>
-      </View>
+      </ScrollView>
     </Wrapper>
   );
 }
