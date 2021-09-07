@@ -3,6 +3,7 @@ import { FlatList, LogBox, Platform, RefreshControl, TouchableOpacity, View } fr
 import { API, graphqlOperation } from "aws-amplify";
 import { GraphQLResult } from "@aws-amplify/api";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import * as Notifications from "expo-notifications";
 
 import styles from "./multiplayer-home.styles";
 import PlayerModal from "./player-modal/player-modal";
@@ -49,6 +50,7 @@ export default function MultiplayerHome({ navigation }: ScrProps): ReactElement 
             return [...ps, ...newPlayerGames];
           });
           setNextToken(player.data.getPlayer.games.nextToken);
+          Notifications.setBadgeCountAsync(0);
         }
       } catch (err) {
         alert("An error has occured!");

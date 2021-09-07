@@ -26,11 +26,19 @@ const initNotifications = async (): Promise<void> => {
       return;
     }
 
-    const tokenRes = await Notifications.getExpoPushTokenAsync();
+    let tokenRes;
+    let tokenStr;
+    if (Platform.OS === "web") {
+      tokenRes = await Notifications.getDevicePushTokenAsync();
+      tokenStr = tokenRes.data.endpoint;
+    } else {
+      tokenRes = await Notifications.getExpoPushTokenAsync();
+      tokenStr = tokenRes.data;
+    }
     try {
       await API.graphql(
         graphqlOperation(addExpoToken, {
-          token: tokenRes.data,
+          token: tokenStr,
         })
       );
     } catch (err) {

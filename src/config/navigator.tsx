@@ -1,6 +1,7 @@
-import React, { ReactElement } from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import React, { ReactElement, useState, useEffect, useRef } from "react";
+import { NavigationContainer, NavigationContainerRef, StackActions } from "@react-navigation/native";
 import { createNativeStackNavigator, NativeStackNavigationOptions } from "@react-navigation/native-stack";
+import * as Notifications from "expo-notifications";
 
 import {
   HomeScr,
@@ -14,6 +15,7 @@ import {
   MultiplayerGameScr,
 } from "@screens";
 import { colors } from "@utils";
+import { useAuth } from "@contexts/auth-context";
 
 export type RootNavParams = {
   Home: undefined;
@@ -43,8 +45,36 @@ const navOptions: NativeStackNavigationOptions = {
 const Stack = createNativeStackNavigator<RootNavParams>();
 
 export default function Navigator(): ReactElement {
+  const { user } = useAuth();
+  const navRef = useRef<NavigationContainerRef<RootNavParams> | null>(null);
+  const [isNavigatorReady, setIsNavigatorReady] = useState(false);
+
+  useEffect(() => {
+    if (user && isNavigatorReady) {
+      const subscription = Notifications.addNotificationResponseReceivedListener((res) => {
+        console.log(res);
+        const gameID = res.notification.request.content.data.gameId;
+        if (gameID) {
+          if (navRef.current?.getCurrentRoute()?.name === "MultiplayerGame") {
+            navRef.current.dispatch(StackActions.replace("MultiplayerGame", { gameID: gameID }));
+          }
+          navRef.current?.navigate("MultiplayerGame", { gameID: gameID as string });
+        }
+      });
+
+      return () => {
+        subscription.remove();
+      };
+    }
+  }, [user, isNavigatorReady]);
+
   return (
-    <NavigationContainer>
+    <NavigationContainer
+      ref={navRef}
+      onReady={() => {
+        setIsNavigatorReady(true);
+      }}
+    >
       <Stack.Navigator initialRouteName="Home" screenOptions={navOptions}>
         <Stack.Screen name="Home" component={HomeScr} options={{ headerShown: false }} />
         <Stack.Screen name="SinglePlayer" component={SinglePlayerGameScr} options={{ title: "Single Player Game" }} />

@@ -6,7 +6,7 @@ import styles from "./home.styles";
 import { Button, Text, Wrapper } from "@components";
 import { RootNavParams } from "@config/navigator";
 import { useAuth } from "@contexts/auth-context";
-import { Auth } from "aws-amplify";
+import { signOut } from "@utils";
 
 type StackNavProps = {
   navigation: NativeStackNavigationProp<RootNavParams, "Home">;
@@ -21,7 +21,7 @@ export default function Home({ navigation }: StackNavProps): ReactElement {
   const signOutHandler = async (): Promise<void> => {
     setSigningOut(true);
     try {
-      await Auth.signOut();
+      await signOut();
     } catch (err) {
       Alert.alert("Error!", "Error signing out!");
     }

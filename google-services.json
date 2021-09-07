@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "157148000862",
+    "project_id": "rnttt-cdafc",
+    "storage_bucket": "rnttt-cdafc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:157148000862:android:53b3c7861aad32530bfacf",
+        "android_client_info": {
+          "package_name": "net.chkl.rnttt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "157148000862-0vv81ufirm0latvnip62f6ldlqukdiqe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmDiVtRmWFRc5uAntU_lwzzuX5-6kDQW0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "157148000862-0vv81ufirm0latvnip62f6ldlqukdiqe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -15,9 +15,15 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "net.chkl.rnttt",
+      "buildNumber": "1.0.0"
     },
     "android": {
+      "googleServicesFile": "./google-services.json",
+      "useNextNotificationsApi": true,
+      "package": "net.chkl.rnttt",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"

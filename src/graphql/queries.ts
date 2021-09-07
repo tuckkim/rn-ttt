@@ -261,3 +261,26 @@ export const listExpoTokens = /* GraphQL */ `
     }
   }
 `;
+export const getExpoTicketsObjects = /* GraphQL */ `
+  query GetExpoTicketsObjects($id: ID!) {
+    getExpoTicketsObjects(id: $id) {
+      id
+      tickets
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listExpoTicketsObjects = /* GraphQL */ `
+  query ListExpoTicketsObjects($filter: ModelExpoTicketsObjectsFilterInput, $limit: Int, $nextToken: String) {
+    listExpoTicketsObjects(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        tickets
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;

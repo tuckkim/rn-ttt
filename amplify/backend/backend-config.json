@@ -105,6 +105,18 @@
           "attributes": ["GraphQLAPIIdOutput", "GraphQLAPIEndpointOutput", "GraphQLAPIKeyOutput"]
         }
       ]
+    },
+    "handleExpoTickets": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "api",
+          "resourceName": "rnttt",
+          "attributes": ["GraphQLAPIIdOutput", "GraphQLAPIEndpointOutput", "GraphQLAPIKeyOutput"]
+        }
+      ]
     }
   }
 }

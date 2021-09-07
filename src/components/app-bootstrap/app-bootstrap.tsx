@@ -1,10 +1,19 @@
 import React, { ReactElement, ReactNode, useState, useEffect } from "react";
 import { useFonts, DeliusUnicase_400Regular, DeliusUnicase_700Bold } from "@expo-google-fonts/delius-unicase";
 import { Auth, Hub } from "aws-amplify";
+import * as Notifications from "expo-notifications";
 
 import Loading from "../loading/loading";
 import { useAuth } from "@contexts/auth-context";
-import { initNofications } from "@utils";
+import { initNotifications } from "@utils";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
 
 type AppBootStrapProps = {
   children: ReactNode;
@@ -24,7 +33,7 @@ export default function AppBootStrap({ children }: AppBootStrapProps): ReactElem
       try {
         const user = await Auth.currentAuthenticatedUser();
         setUser(user);
-        initNofications();
+        initNotifications();
       } catch (err) {
         setUser(null);
       }
@@ -40,7 +49,7 @@ export default function AppBootStrap({ children }: AppBootStrapProps): ReactElem
           break;
         case "signIn":
           setUser(data);
-          initNofications();
+          initNotifications();
           break;
 
         default:

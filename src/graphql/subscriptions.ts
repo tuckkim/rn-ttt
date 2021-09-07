@@ -573,3 +573,33 @@ export const onDeleteExpoToken = /* GraphQL */ `
     }
   }
 `;
+export const onCreateExpoTicketsObjects = /* GraphQL */ `
+  subscription OnCreateExpoTicketsObjects {
+    onCreateExpoTicketsObjects {
+      id
+      tickets
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateExpoTicketsObjects = /* GraphQL */ `
+  subscription OnUpdateExpoTicketsObjects {
+    onUpdateExpoTicketsObjects {
+      id
+      tickets
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteExpoTicketsObjects = /* GraphQL */ `
+  subscription OnDeleteExpoTicketsObjects {
+    onDeleteExpoTicketsObjects {
+      id
+      tickets
+      createdAt
+      updatedAt
+    }
+  }
+`;

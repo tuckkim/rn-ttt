@@ -8,6 +8,7 @@ Amplify Params - DO NOT EDIT */
 
 const appsync = require("aws-appsync");
 const gql = require("graphql-tag");
+const { Expo } = require("expo-server-sdk");
 require("cross-fetch/polyfill");
 
 exports.handler = async (event) => {
@@ -33,6 +34,11 @@ exports.handler = async (event) => {
     query getPlayer($username: String!) {
       getPlayer(username: $username) {
         id
+        tokens {
+          items {
+            token
+          }
+        }
       }
     }
   `;
@@ -113,6 +119,85 @@ exports.handler = async (event) => {
   });
 
   //4. Send a push notification to the invitee
+  const inviteeTokens = inviteeResponse.data.getPlayer.tokens.items;
+  // Create a new Expo SDK client
+  // optionally providing an access token if you have enabled push security
+  const expo = new Expo();
+  // Create the messages that you want to send to clients
+  let messages = [];
+  for (let pushToken of inviteeTokens) {
+    if (!Expo.isExpoPushToken(pushToken.token)) continue;
+    messages.push({
+      to: pushToken.token,
+      Sound: "default",
+      body: `${initiator} invited you to play a game`,
+      data: { gameId: gameResponse.data.createGame.id },
+      badge: 1,
+    });
+  }
+  const chunks = expo.chunkPushNotifications(messages);
+  const tickets = [];
+  for (let chunk of chunks) {
+    try {
+      const ticketChunk = await expo.sendPushNotificationsAsync(chunk);
+      for (let index = 0; index < ticketChunk.length; index++) {
+        const ticket = ticketChunk[index];
+        const expoToken = chunk[index].to;
+        tickets.push({
+          expoToken,
+          ticket,
+        });
+      }
+    } catch (err) {}
+  }
+
+  const ticketIds = {};
+  for (const ticketObj of tickets) {
+    const ticket = ticketObj.ticket;
+    const expoToken = ticketObj.expoToken;
+    if ((ticket.status = "error")) {
+      if (ticket.details && ticket.details.error === "DeviceNotRegistered") {
+        const deleteExpoToken = gql`
+          mutation deleteExpoToken($token: String!) {
+            deleteExpoToken(input: { token: $token }) {
+              token
+            }
+          }
+        `;
+
+        try {
+          await graphqlClient.mutate({
+            mutation: deleteExpoToken,
+            variables: {
+              token: expoToken,
+            },
+          });
+        } catch (err) {}
+      }
+    }
+    if (ticket.id) {
+      ticketIds[ticket.id] = expoToken;
+    }
+  }
+
+  if (Object.keys(ticketIds).length !== 0) {
+    const createExpoTicketsObject = gql`
+      mutation createExpoTicketsObject($ticket: AWSJSON!) {
+        createExpoTicketsObject(input: { tickets: $ticket }) {
+          id
+          tickets
+        }
+      }
+    `;
+    try {
+      await graphqlClient.mutate({
+        mutation: createExpoTicketsObject,
+        variables: {
+          tickets: JSON.stringify(ticketIds),
+        },
+      });
+    } catch (err) {}
+  }
 
   return {
     id: gameResponse.data.createGame.id,
